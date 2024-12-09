@@ -26,9 +26,19 @@ const getCarsByUserId = async (req, res) => {
 
         const cars = await fetchCarsByUserId(userId);
 
+        const userCars = cars.map(car => ({
+            id: car._id, 
+            carModel: car.carModel,
+            price: car.price,
+            phone: car.phone,
+            city: car.city,
+            images: car.images,
+            userId: car.userId
+        }));
+        
         res.status(200).json({
             ok: true,
-            cars,
+            cars: userCars,
         });
     } catch (error) {
         console.error(`Error in getCarsByUserId: ${error.message}`);

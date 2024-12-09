@@ -2,9 +2,13 @@ const Car = require("../models/carSchema");
 
 const addCar = async (carData) => {
     try {
-        const car = new Car(carData);
-        const savedCar = await car.save();
-        return savedCar;
+        if (Array.isArray(carData.images) && carData.images.every(pic => typeof pic === 'string')) {
+            const car = new Car(carData);
+            const savedCar = await car.save();
+            return savedCar;
+        } else {
+            throw new Error("Images must be an array of strings");
+        }
     } catch (error) {
         throw new Error(`Failed to create car entry: ${error.message}`);
     }
